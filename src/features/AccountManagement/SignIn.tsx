@@ -11,7 +11,7 @@ import {
    Link
   } from "@chakra-ui/react";
 import ErrorMessage from '../../shared/components/ErrorMessage';
-import { userLogin } from '../../shared/utils/LoginApi';
+import { userLogin } from '../../shared/utils/auth/LoginApi';
 
 const SignIn: React.FC = () => {
     const [email, setEmail] = useState('');

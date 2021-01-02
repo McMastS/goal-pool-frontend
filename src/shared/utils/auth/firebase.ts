@@ -9,7 +9,7 @@ import {
   FIREBASE_MESSAGINGSENDERID,
   FIREBASE_PROJECTID,
   FIREBASE_STORAGEBUCKET,
-} from '../const'
+} from '../../const'
 
 const firebaseConfig = {
   apiKey: FIREBASE_APIKEY,

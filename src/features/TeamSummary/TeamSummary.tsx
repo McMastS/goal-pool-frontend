@@ -1,4 +1,4 @@
-import { Flex, Table, Thead, Tbody, Tr, Th, Td, TableCaption, Skeleton } from '@chakra-ui/react';
+import { Flex, Table, Thead, Tbody, Tr, Th, Td, TableCaption, Box, Heading } from '@chakra-ui/react';
 import { fetchTeam } from '../../shared/utils/UserTeamApi';
 import React, { useEffect, useState } from 'react';
 import { Player, UserTeam } from '../../shared/const/spencers_team';
@@ -49,9 +49,11 @@ const TeamSummary: React.FC = () => {
     }
 
     return (
-        <Flex>
+        <Flex width="full" align="center" justifyContent="center">
+          <Box m={8} maxWidth="800px">
+            <Heading>{teamName}</Heading>
             <Table variant="simple">
-                <TableCaption>{teamName}</TableCaption>
+                <TableCaption>{owner}</TableCaption>
                 <Thead>
                     <Tr>
                         <Th>Name</Th>
@@ -65,8 +67,10 @@ const TeamSummary: React.FC = () => {
                 <Tbody>
                     {renderTableData()}
                 </Tbody>
-                </Table>
+            </Table>
+          </Box>  
         </Flex>
+        
     )
 }
 
