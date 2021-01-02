@@ -2,6 +2,7 @@ import { Flex, Table, Thead, Tbody, Tr, Th, Td, TableCaption, Box, Heading } fro
 import { fetchTeam } from '../../shared/utils/UserTeamApi';
 import React, { useEffect, useState } from 'react';
 import { Player, UserTeam } from '../../shared/const/spencers_team';
+import ErrorMessage from '../../shared/components/ErrorMessage';
 
 type TeamSummaryProps = {
     id : number
@@ -51,7 +52,9 @@ const TeamSummary: React.FC = () => {
     return (
         <Flex width="full" align="center" justifyContent="center">
           <Box m={8} maxWidth="800px">
+            {error && <ErrorMessage message={error} />}
             <Heading>{teamName}</Heading>
+            { isLoading ? "loading!" : null }
             <Table variant="simple">
                 <TableCaption>{owner}</TableCaption>
                 <Thead>

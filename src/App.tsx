@@ -1,4 +1,4 @@
-import React, { Component, ReactNode } from 'react';
+import React from 'react';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import { ChakraProvider } from '@chakra-ui/react';
 import './App.css';

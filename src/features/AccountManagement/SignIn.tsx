@@ -12,12 +12,14 @@ import {
   } from "@chakra-ui/react";
 import ErrorMessage from '../../shared/components/ErrorMessage';
 import { userLogin } from '../../shared/utils/auth/LoginApi';
+import { useHistory } from 'react-router';
 
 const SignIn: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const history = useHistory();
 
     const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
@@ -25,12 +27,14 @@ const SignIn: React.FC = () => {
         try {
             const result = await userLogin(email, password);
             console.log(result);
-            setIsLoading(false);
+            history.push("/");
+          
+            // set the context here to the user object contained in result
+            //redirect to team summary for now
         } catch (error) {
             setError('Invalid username or password');
+            console.log(error);
             setIsLoading(false);
-            setEmail('');
-            setPassword('');
         }
     }
     
@@ -63,7 +67,7 @@ const SignIn: React.FC = () => {
                                 isRequired={true} 
                             />
                         </FormControl>
-                        <Button variantColor="teal" width="full" mt={4} type="submit">
+                        <Button color="teal.500" width="full" mt={4} type="submit">
                             {isLoading ? (
                                 <CircularProgress isIndeterminate h="24px" w="24px" color="teal" />
                             ) : (

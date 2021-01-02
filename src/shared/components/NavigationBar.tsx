@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Heading, Flex, Text, Button } from "@chakra-ui/react";
+import { useHistory } from "react-router";
 
 type MenuItemsProps = {
     children: React.ReactNode;
@@ -12,10 +13,14 @@ const MenuItems = ({ children }: MenuItemsProps) => (
 );
 
 const NavigationBar = () => {
-  const [show, setShow] = React.useState(false);
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [show, setShow] = useState(false);
+  const history = useHistory();
   const handleToggle = () => setShow(!show);
 
+  const handleLogout = () => {
+    history.push("/login");
+  }
+  
   return (
     <Flex
       as="nav"
@@ -59,8 +64,8 @@ const NavigationBar = () => {
         display={{ sm: show ? "block" : "none", md: "block" }}
         mt={{ base: 4, md: 0 }}
       >
-        <Button bg="transparent" border="1px">
-          {loggedIn ? "Log out" : "Log in"}
+        <Button bg="transparent" border="1px" onClick={handleLogout}>
+          Log out
         </Button>
       </Box>
     </Flex>
