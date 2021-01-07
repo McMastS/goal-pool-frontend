@@ -3,7 +3,7 @@ import { Box, Heading, Flex, Text, Button } from "@chakra-ui/react";
 import { useHistory } from "react-router";
 
 type MenuItemsProps = {
-    children: React.ReactNode;
+  children: React.ReactNode;
 };
 
 const MenuItems = ({ children }: MenuItemsProps) => (
@@ -19,8 +19,8 @@ const NavigationBar = () => {
 
   const handleLogout = () => {
     history.push("/login");
-  }
-  
+  };
+
   return (
     <Flex
       as="nav"

@@ -1,87 +1,101 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useState } from "react";
 import {
-   Flex,
-   Box,
-   Heading,
-   FormControl, 
-   FormLabel,
-   Input,
-   Button,
-   CircularProgress,
-   Link
-  } from "@chakra-ui/react";
-import ErrorMessage from '../../shared/components/ErrorMessage';
-import { userLogin } from '../../shared/utils/auth/LoginApi';
-import { useHistory } from 'react-router';
+  Flex,
+  Box,
+  Heading,
+  FormControl,
+  FormLabel,
+  Input,
+  Button,
+  CircularProgress,
+  Link,
+} from "@chakra-ui/react";
+import ErrorMessage from "../../shared/components/ErrorMessage";
+import { useHistory } from "react-router";
+import { useAuth } from "../../shared/utils/auth/UseAuth";
 
 const SignIn: React.FC = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const history = useHistory();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const history = useHistory();
 
-    const handleSubmit = async (event: FormEvent) => {
-        event.preventDefault();
-        setIsLoading(true);
-        try {
-            const result = await userLogin(email, password);
-            console.log(result);
-            history.push("/");
-          
-            // set the context here to the user object contained in result
-            //redirect to team summary for now
-        } catch (error) {
-            setError('Invalid username or password');
-            console.log(error);
-            setIsLoading(false);
-        }
+  const auth = useAuth();
+
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    setIsLoading(true);
+    try {
+      auth?.signin(email, password);
+      console.log(auth?.user);
+      history.push('/');
+    } catch (error) {
+      setError("Invalid username or password");
+      console.log(error);
+      setIsLoading(false);
     }
-    
-    return (
-        <Flex width="full" align="center" justifyContent="center">
-            <Box mt={8} p={8} maxWidth="500px" borderWidth={1} borderRadius={8} boxShadow="lg">
-                <Box textAlign="center">
-                    <Heading>Login</Heading>
-                </Box>
-                <Box my={4} textAlign="left">
-                    <form onSubmit={handleSubmit}>
-                        {error && <ErrorMessage message={error} />}
-                        <FormControl>
-                            <FormLabel>
-                                Email
-                            </FormLabel>
-                            <Input 
-                                type="email" 
-                                placeholder="email@domain.com" 
-                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => setEmail(event.target.value)}
-                                isRequired={true} 
-                            />
-                        </FormControl>
-                        <FormControl mt={6}>
-                            <FormLabel>Password</FormLabel>
-                            <Input 
-                                type="password" 
-                                placeholder="brAednSux1" 
-                                onChange={(event: React.ChangeEvent<HTMLInputElement>) => setPassword(event.target.value)}
-                                isRequired={true} 
-                            />
-                        </FormControl>
-                        <Button color="teal.500" width="full" mt={4} type="submit">
-                            {isLoading ? (
-                                <CircularProgress isIndeterminate h="24px" w="24px" color="teal" />
-                            ) : (
-                                'Sign In' 
-                            )}
-                        </Button>
-                        <Link color="teal.500" href="#">
-                            Don't have an account? Sign up here.
-                        </Link>
-                    </form>
-                </Box>
-            </Box>
-        </Flex>
-    )
-}
+  };
+
+  return (
+    <Flex width="full" align="center" justifyContent="center">
+      <Box
+        mt={8}
+        p={8}
+        maxWidth="500px"
+        borderWidth={1}
+        borderRadius={8}
+        boxShadow="lg"
+      >
+        <Box textAlign="center">
+          <Heading>Login</Heading>
+        </Box>
+        <Box my={4} textAlign="left">
+          <form onSubmit={handleSubmit}>
+            {error && <ErrorMessage message={error} />}
+            <FormControl>
+              <FormLabel>Email</FormLabel>
+              <Input
+                type="email"
+                placeholder="email@domain.com"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  setEmail(event.target.value)
+                }
+                isRequired={true}
+              />
+            </FormControl>
+            <FormControl mt={6}>
+              <FormLabel>Password</FormLabel>
+              <Input
+                type="password"
+                placeholder="brAednSux1"
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  setPassword(event.target.value)
+                }
+                isRequired={true}
+              />
+            </FormControl>
+            <Button
+              bg="teal.500"
+              color="white"
+              width="full"
+              mt={4}
+              type="submit"
+            >
+              {isLoading ? (
+                <CircularProgress isIndeterminate color="teal" />
+              ) : (
+                "Sign In"
+              )}
+            </Button>
+            <Link color="teal.500" href="#">
+              Don't have an account? Sign up here.
+            </Link>
+          </form>
+        </Box>
+      </Box>
+    </Flex>
+  );
+};
 
 export default SignIn;
