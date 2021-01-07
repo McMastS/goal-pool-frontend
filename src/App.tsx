@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, BrowserRouter, Switch } from "react-router-dom";
+import { Route, BrowserRouter, Switch, Redirect } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import "./App.css";
 import SignUp from "./features/AccountManagement/SignUp";
@@ -7,26 +7,33 @@ import { theme } from "@chakra-ui/react";
 import SignIn from "./features/AccountManagement/SignIn";
 import TeamSummary from "./features/TeamSummary/TeamSummary";
 import NavigationBar from "./shared/components/NavigationBar";
-import { ProvideAuth } from "./shared/utils/auth/UseAuth";
+import { ProvideAuth, useAuth } from "./shared/utils/auth/UseAuth";
 
-type NavRouteProps = {
-  exact: boolean;
+type PrivateRouteProps = {
+  children: any;
   path: string;
-  component: any;
 };
 
-const NavRoute = ({ exact, path, component: Component }: NavRouteProps) => (
-  <Route
-    exact={exact}
-    path={path}
-    render={(props) => (
-      <div>
-        <NavigationBar />
-        <Component {...props} />
-      </div>
-    )}
-  ></Route>
-);
+const PrivateRoute = ({ children, ...rest }: PrivateRouteProps) => {
+  let auth = useAuth();
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        auth?.user ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location },
+            }}
+          />
+        )
+      }
+    ></Route>
+  );
+};
 
 function App() {
   return (
@@ -36,7 +43,10 @@ function App() {
           <Switch>
             <Route exact component={SignIn} path="/login" />
             <Route exact component={SignUp} path="/register" />
-            <NavRoute exact component={TeamSummary} path="/" />
+            <PrivateRoute path="/">
+              <NavigationBar />
+              <TeamSummary />
+            </PrivateRoute>
           </Switch>
         </BrowserRouter>
       </ChakraProvider>

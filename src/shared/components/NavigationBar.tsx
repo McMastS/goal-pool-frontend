@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Box, Heading, Flex, Text, Button } from "@chakra-ui/react";
 import { useHistory } from "react-router";
+import { useAuth } from "../utils/auth/UseAuth";
 
 type MenuItemsProps = {
   children: React.ReactNode;
@@ -16,8 +17,10 @@ const NavigationBar = () => {
   const [show, setShow] = useState(false);
   const history = useHistory();
   const handleToggle = () => setShow(!show);
+  const auth = useAuth();
 
   const handleLogout = () => {
+    auth?.signout();
     history.push("/login");
   };
 

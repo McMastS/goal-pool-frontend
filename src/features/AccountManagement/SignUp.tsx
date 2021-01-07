@@ -85,7 +85,7 @@ const SignUp: React.FC = () => {
                 "Sign Up"
               )}
             </Button>
-            <Link color="teal.500" href="#">
+            <Link color="teal.500" href="/login">
               Already have an account? Sign in here.
             </Link>
           </form>

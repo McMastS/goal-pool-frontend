@@ -11,8 +11,14 @@ import {
   Link,
 } from "@chakra-ui/react";
 import ErrorMessage from "../../shared/components/ErrorMessage";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
 import { useAuth } from "../../shared/utils/auth/UseAuth";
+
+interface LocationState {
+  from: {
+    pathname: string;
+  };
+}
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -20,8 +26,11 @@ const SignIn: React.FC = () => {
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
+  const location = useLocation<LocationState>();
 
   const auth = useAuth();
+
+  const { from } = location.state || { from: { pathname: "/" }};
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -29,7 +38,7 @@ const SignIn: React.FC = () => {
     try {
       auth?.signin(email, password);
       console.log(auth?.user);
-      history.push('/');
+      history.replace(from);
     } catch (error) {
       setError("Invalid username or password");
       console.log(error);
@@ -88,7 +97,7 @@ const SignIn: React.FC = () => {
                 "Sign In"
               )}
             </Button>
-            <Link color="teal.500" href="#">
+            <Link color="teal.500" href="/register">
               Don't have an account? Sign up here.
             </Link>
           </form>
