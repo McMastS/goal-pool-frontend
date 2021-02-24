@@ -1,3 +1,8 @@
+This is the frontend of a personal project WIP that will be a small fantasy app for one specific stat: goals. 
+My uncle has had a league with his friends for a few decades where they would draft players on pieces of paper and track everything with newspapers. 
+They are still using pen and paper to track their goals, so I figured I would at least try to save them some time.
+
+----------------
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
