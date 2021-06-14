@@ -1,0 +1,91 @@
+openapi: 3.0.3
+info:
+  title: Goal Pool API
+  description: Internal API for my personal project. This API handles operations for
+    a fantasy hockey app that solely tracks goals.
+  version: 0.0.1
+servers:
+- url: /
+security:
+- BearerAuth: []
+paths:
+  /login:
+    post:
+      summary: Attempts to login the user.
+      responses:
+        "200":
+          description: User has logged in successfully.
+        "401":
+          description: User has provided incorrect credentials.
+  /register:
+    post:
+      summary: Registers user.
+      responses:
+        "201":
+          description: User was successfully created.
+  /team/{teamId}:
+    get:
+      summary: Get information related to the team with the given team ID.
+      parameters:
+      - name: teamId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Team information was successfully retrieved.
+  /standings/{leagueId}:
+    get:
+      summary: Gets the current league standings for the given users league.
+      parameters:
+      - name: leagueId
+        in: path
+        description: Numeric Id of the league's standings to get
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Request was successful and response body contains the league
+            standings.
+        "404":
+          description: League with given ID was not found.
+  /draft:
+    post:
+      summary: Draft the given player to the given team.
+      requestBody:
+        description: Request containing player and team IDs.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DraftPlayerRequest'
+        required: true
+      responses:
+        "200":
+          description: The player was successfully added to the team.
+components:
+  schemas:
+    DraftPlayerRequest:
+      required:
+      - playerId
+      - teamId
+      type: object
+      properties:
+        teamId:
+          type: number
+          description: ID of the team the player is drafted by.
+          example: 11
+        playerId:
+          type: number
+          description: ID of the player being drafted.
+          example: 15
+      description: Request sent when drafting a player to a team.
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer

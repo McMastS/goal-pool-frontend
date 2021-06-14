@@ -30,6 +30,7 @@ const SignUp: React.FC = () => {
       await auth?.signup(email, password);
     } catch (error) {
       setError("Something went wrong");
+      console.log(error);
     }
 
     setIsLoading(false);
@@ -55,7 +56,7 @@ const SignUp: React.FC = () => {
               <FormLabel>Email</FormLabel>
               <Input
                 type="email"
-                placeholder="wiener@wiener.com"
+                placeholder="fake@email.com"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                   setEmail(event.target.value)
                 }
@@ -66,7 +67,7 @@ const SignUp: React.FC = () => {
               <FormLabel>Password</FormLabel>
               <Input
                 type="password"
-                placeholder="brAednSux1"
+                placeholder="guest"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                   setPassword(event.target.value)
                 }
